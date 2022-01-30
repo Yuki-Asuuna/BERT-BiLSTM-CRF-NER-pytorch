@@ -1,0 +1,793 @@
+Windows PowerShell
+版权所有 (C) Microsoft Corporation。保留所有权利。
+尝试新的跨平台 PowerShell https://aka.ms/pscore6
+
+PS F:\毕业论文\BERT-BiLSTM-CRF-NER-pytorch> pip install https://download.pytorch.org/whl/cu90/torch-1.1.0-cp36-cp36m-win_amd64.whl
+Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple
+Collecting torch==1.1.0
+  Downloading https://download.pytorch.org/whl/cu90/torch-1.1.0-cp36-cp36m-win_amd64.whl (728.6 MB)
+     |████████████████████████████████| 728.6 MB 5.4 kB/s
+Collecting numpy
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/ea/bc/da526221bc111857c7ef39c3af670bbcf5e69c247b0d22e51986f6d0c5c2/numpy-1.19.5-cp36-cp36m-win_amd64.whl (13.2 MB)
+     |████████████████████████████████| 13.2 MB 6.8 MB/s
+Installing collected packages: numpy, torch
+Successfully installed numpy-1.19.5 torch-1.1.0
+PS F:\毕业论文\BERT-BiLSTM-CRF-NER-pytorch> pip install https://download.pytorch.org/whl/cu90/torchvision-0.3.0-cp36-cp36m-win_amd64.whl
+Collecting torchvision==0.3.0
+  Downloading https://download.pytorch.org/whl/cu90/torchvision-0.3.0-cp36-cp36m-win_amd64.whl (1.3 MB)
+     |████████████████████████████████| 1.3 MB 939 kB/s
+Requirement already satisfied: numpy in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from torchvision==0.3.0) (1.19.5)
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/8f/10/c8dc9fff37b69b5962b7783ab4835611e83dada453cd9913d82ca2a1321b/Pillow-8.4.0-cp36-cp36m-win_amd64.whl (3.2 MB)
+     |████████████████████████████████| 3.2 MB 6.4 MB/s
+Requirement already satisfied: torch>=1.1.0 in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from torchvision==0.3.0) (1.1.0)
+Collecting six
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/d9/5a/e7c31adbe875f2abbb91bd84cf2dc52d792b5a01506781dbcf25c91daf11/six-1.16.0-py2.py3-none-any.whl (11 kB)
+Installing collected packages: six, pillow, torchvision
+Successfully installed pillow-8.4.0 six-1.16.0 torchvision-0.3.0
+PS F:\毕业论文\BERT-BiLSTM-CRF-NER-pytorch> sh run.sh
+  File "ner.py", line 20, in <module>
+    from tqdm import tqdm, trange
+ModuleNotFoundError: No module named 'tqdm'
+PS F:\毕业论文\BERT-BiLSTM-CRF-NER-pytorch> pip install tqdm
+Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple
+Collecting tqdm
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/63/f3/b7a1b8e40fd1bd049a34566eb353527bb9b8e9b98f8b6cf803bb64d8ce95/tqdm-4.62.3-py2.py3-none-any.whl (76 kB)
+     |████████████████████████████████| 76 kB 1.0 MB/s
+Collecting colorama
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/44/98/5b86278fbbf250d239ae0ecb724f8572af1c91f4a11edf4d36a206189440/colorama-0.4.4-py2.py3-none-any.whl (16 kB)
+Installing collected packages: colorama, tqdm
+Successfully installed colorama-0.4.4 tqdm-4.62.3
+PS F:\毕业论文\BERT-BiLSTM-CRF-NER-pytorch> pip install pytorch_transformers
+Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple
+Collecting pytorch_transformers
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/a3/b7/d3d18008a67e0b968d1ab93ad444fc05699403fa662f634b2f2c318a508b/pytorch_transformers-1.2.0-py3-none-any.whl (176 kB)
+     |████████████████████████████████| 176 kB 1.3 MB/s
+Collecting sentencepiece
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/a0/2b/a0b983a1daa6c703a9a2496f5220809d813a9f30e5129ff6b3a23369f93c/sentencepiece-0.1.96-cp36-cp36m-win_amd64.whl (1.1 MB)
+     |████████████████████████████████| 1.1 MB 2.2 MB/s
+Requirement already satisfied: torch>=1.0.0 in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from pytorch_transformers) (1.1.0)
+Collecting boto3
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/f6/cb/0657bc5b7978db612286e69978483eff7a97779b621dc06fff329e263182/boto3-1.20.46-py3-none-any.whl (131 kB)
+     |████████████████████████████████| 131 kB 2.2 MB/s
+Requirement already satisfied: tqdm in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from pytorch_transformers) (4.62.3)
+Collecting regex
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/20/96/c6de0da71bde4a06e2a7ad205985ff134931eb22be832efb589407c9f2be/regex-2022.1.18-cp36-cp36m-win_amd64.whl (272 kB)
+     |████████████████████████████████| 272 kB ...
+Collecting sacremoses
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/ec/e5/407e634cbd3b96a9ce6960874c5b66829592ead9ac762bd50662244ce20b/sacremoses-0.0.47-py2.py3-none-any.whl (895 kB)
+     |████████████████████████████████| 895 kB ...
+Collecting requests
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/2d/61/08076519c80041bc0ffa1a8af0cbd3bf3e2b62af10435d269a9d0f40564d/requests-2.27.1-py2.py3-none-any.whl (63 kB)
+     |████████████████████████████████| 63 kB 790 kB/s
+Requirement already satisfied: numpy in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from pytorch_transformers) (1.19.5)
+Collecting botocore<1.24.0,>=1.23.46
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/58/11/23687b4a7d62a9c4a67d751246e3dcba8308dcc0675da67fdd7918635b3b/botocore-1.23.46-py3-none-any.whl (8.5 MB)
+     |████████████████████████████████| 8.5 MB 6.4 MB/s
+Collecting s3transfer<0.6.0,>=0.5.0
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/ab/84/fc3717a7b7f0f6bb08af593127171f08e3e0087c197922da09c01bfe7c3a/s3transfer-0.5.0-py3-none-any.whl (79 kB)
+     |████████████████████████████████| 79 kB 3.8 MB/s
+Collecting jmespath<1.0.0,>=0.7.1
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/07/cb/5f001272b6faeb23c1c9e0acc04d48eaaf5c862c17709d20e3469c6e0139/jmespath-0.10.0-py2.py3-none-any.whl (24 kB)
+Collecting urllib3<1.27,>=1.25.4
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/4e/b8/f5a25b22e803f0578e668daa33ba3701bb37858ec80e08a150bd7d2cf1b1/urllib3-1.26.8-py2.py3-none-any.whl (138 kB)
+     |████████████████████████████████| 138 kB 3.3 MB/s
+Collecting python-dateutil<3.0.0,>=2.1
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/36/7a/87837f39d0296e723bb9b62bbb257d0355c7f6128853c78955f57342a56d/python_dateutil-2.8.2-py2.py3-none-any.whl (247 kB)
+     |████████████████████████████████| 247 kB ...
+Requirement already satisfied: six>=1.5 in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from python-dateutil<3.0.0,>=2.1->botocore<1.24.0,>=1.23.46->boto3->pytorch_transformers) (1.16.0)
+Collecting charset-normalizer~=2.0.0
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/84/3e/1037abe6498e65d645ce7a22d3402605d49a3b2c7f20c3abb027760da4f0/charset_normalizer-2.0.10-py3-none-any.whl (39 kB)
+Collecting idna<4,>=2.5
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/04/a2/d918dcd22354d8958fe113e1a3630137e0fc8b44859ade3063982eacd2a4/idna-3.3-py3-none-any.whl (61 kB)
+     |████████████████████████████████| 61 kB 3.7 MB/s
+Requirement already satisfied: certifi>=2017.4.17 in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from requests->pytorch_transformers) (2020.6.20)
+Collecting joblib
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/3e/d5/0163eb0cfa0b673aa4fe1cd3ea9d8a81ea0f32e50807b0c295871e4aab2e/joblib-1.1.0-py2.py3-none-any.whl (306 kB)
+     |████████████████████████████████| 306 kB ...
+Collecting click
+     |████████████████████████████████| 97 kB 6.4 MB/s
+Requirement already satisfied: colorama in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from click->sacremoses->pytorch_transformers) (0.4.4)
+Collecting importlib-metadata
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/a0/a1/b153a0a4caf7a7e3f15c2cd56c7702e2cf3d89b1b359d1f1c5e59d68f4ce/importlib_metadata-4.8.3-py3-none-any.whl (17 kB)
+Collecting zipp>=0.5
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/bd/df/d4a4974a3e3957fd1c1fa3082366d7fff6e428ddb55f074bf64876f8e8ad/zipp-3.6.0-py3-none-any.whl (5.3 kB)
+Collecting typing-extensions>=3.6.4
+  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/05/e4/baf0031e39cf545f0c9edd5b1a2ea12609b7fcba2d58e118b11753d68cf0/typing_extensions-4.0.1-py3-none-any.whl (22 kB)
+Installing collected packages: zipp, urllib3, typing-extensions, python-dateutil, jmespath, importlib-metadata, botocore, s3transfer, regex, joblib, idna, click, charset-normalizer, sentencepiece, sacremoses, requests, boto3, pytorc
+h-transformers
+7.1 s3transfer-0.5.0 sacremoses-0.0.47 sentencepiece-0.1.96 typing-extensions-4.0.1 urllib3-1.26.8 zipp-3.6.0
+PS F:\毕业论文\BERT-BiLSTM-CRF-NER-pytorch> pip install tensorboardX
+Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple
+Collecting tensorboardX
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/98/88/977b2f03fd0f8a2490fc7a1ad691d5e44cee5f1dc90c57078c5c168e2e70/tensorboardX-2.4.1-py2.py3-none-any.whl (124 kB)
+     |████████████████████████████████| 124 kB 1.7 MB/s
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/89/2b/866f78fda94616d8e80227b12e56e6a21474a7b2f45582b04d13428cc428/protobuf-3.19.4-cp36-cp36m-win_amd64.whl (897 kB)
+Requirement already satisfied: numpy in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from tensorboardX) (1.19.5)
+Installing collected packages: protobuf, tensorboardX
+Successfully installed protobuf-3.19.4 tensorboardX-2.4.1
+PS F:\毕业论文\BERT-BiLSTM-CRF-NER-pytorch> sh run.sh
+Traceback (most recent call last):
+  File "ner.py", line 24, in <module>
+    from models import BERT_BiLSTM_CRF
+  File "F:\毕业论文\BERT-BiLSTM-CRF-NER-pytorch\models.py", line 4, in <module>
+    from torchcrf import CRF
+ModuleNotFoundError: No module named 'torchcrf'
+PS F:\毕业论文\BERT-BiLSTM-CRF-NER-pytorch> pip uninstall pytorch-transformer
+WARNING: Skipping pytorch-transformer as it is not installed.
+PS F:\毕业论文\BERT-BiLSTM-CRF-NER-pytorch> pip install pytorch-transformers==1.2.0
+Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple
+Requirement already satisfied: pytorch-transformers==1.2.0 in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (1.2.0)
+Requirement already satisfied: requests in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from pytorch-transformers==1.2.0) (2.27.1)
+Requirement already satisfied: regex in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from pytorch-transformers==1.2.0) (2022.1.18)
+Requirement already satisfied: tqdm in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from pytorch-transformers==1.2.0) (4.62.3)
+Requirement already satisfied: sentencepiece in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from pytorch-transformers==1.2.0) (0.1.96)
+Requirement already satisfied: torch>=1.0.0 in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from pytorch-transformers==1.2.0) (1.1.0)
+Requirement already satisfied: boto3 in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from pytorch-transformers==1.2.0) (1.20.46)
+Requirement already satisfied: numpy in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from pytorch-transformers==1.2.0) (1.19.5)
+Requirement already satisfied: sacremoses in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from pytorch-transformers==1.2.0) (0.0.47)
+Requirement already satisfied: botocore<1.24.0,>=1.23.46 in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from boto3->pytorch-transformers==1.2.0) (1.23.46)
+Requirement already satisfied: s3transfer<0.6.0,>=0.5.0 in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from boto3->pytorch-transformers==1.2.0) (0.5.0)
+Requirement already satisfied: python-dateutil<3.0.0,>=2.1 in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from botocore<1.24.0,>=1.23.46->boto3->pytorch-transformers==1.2.0) (2.8.2)
+Requirement already satisfied: urllib3<1.27,>=1.25.4 in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from botocore<1.24.0,>=1.23.46->boto3->pytorch-transformers==1.2.0) (1.26.8)
+Requirement already satisfied: six>=1.5 in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from python-dateutil<3.0.0,>=2.1->botocore<1.24.0,>=1.23.46->boto3->pytorch-transformers==1.2.0) (1.16.0)
+Requirement already satisfied: charset-normalizer~=2.0.0 in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from requests->pytorch-transformers==1.2.0) (2.0.10)
+Requirement already satisfied: idna<4,>=2.5 in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from requests->pytorch-transformers==1.2.0) (3.3)
+Requirement already satisfied: click in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from sacremoses->pytorch-transformers==1.2.0) (8.0.3)
+Requirement already satisfied: joblib in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from sacremoses->pytorch-transformers==1.2.0) (1.1.0)
+Requirement already satisfied: colorama in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from click->sacremoses->pytorch-transformers==1.2.0) (0.4.4)
+Requirement already satisfied: importlib-metadata in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from click->sacremoses->pytorch-transformers==1.2.0) (4.8.3)
+Requirement already satisfied: typing-extensions>=3.6.4 in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from importlib-metadata->click->sacremoses->pytorch-transformers==1.2.0) (4.0.1)
+Requirement already satisfied: zipp>=0.5 in e:\users\sunyh\anaconda3\envs\py36torch\lib\site-packages (from importlib-metadata->click->sacremoses->pytorch-transformers==1.2.0) (3.6.0)
+PS F:\毕业论文\BERT-BiLSTM-CRF-NER-pytorch> pip install pytorch-crf==0.7.2
+Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple
+Collecting pytorch-crf==0.7.2
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/96/7d/4c4688e26ea015fc118a0327e5726e6596836abce9182d3738be8ec2e32a/pytorch_crf-0.7.2-py3-none-any.whl (9.5 kB)
+Installing collected packages: pytorch-crf
+Successfully installed pytorch-crf-0.7.2
+PS F:\毕业论文\BERT-BiLSTM-CRF-NER-pytorch> sh run.sh
+01/29/2022 09:49:12 - INFO - __main__ -   device: cuda n_gpu: 1
+./output\eval
+./output\eval\events.out.tfevents.1643372194.DESKTOP-LFL30MF
+./output\label2id.pkl
+./output\label_list.pkl
+01/29/2022 09:49:12 - INFO - utils -   loading labels info from train file and dump in ./output
+01/29/2022 09:49:15 - INFO - pytorch_transformers.tokenization_utils -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-chinese-vocab.txt from cache at C:\Users\sunyh\.cache\torch\pytorch_transformers\8a0
+c070123c1f794c42a29c6904beb7c1b8715741e235bee04aca2c7636fc83f.9b42061518a39ca00b8b52059fd2bede8daa613f8a8671500e518a8c29de8c00
+01/29/2022 09:49:16 - INFO - pytorch_transformers.modeling_utils -   loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-chinese-config.json from cache at C:\Users\sunyh\.cache\torch\pytorch_tran
+sformers\8a3b1cfe5da58286e12a0f5d7d182b8d6eca88c08e26c332ee3817548cf7e60a.f12a4f986e43d8b328f5b067a641064d67b91597567a06c7b122d1ca7dfd9741
+01/29/2022 09:49:16 - INFO - pytorch_transformers.modeling_utils -   Model config {
+  "architectures": [
+    "BertForMaskedLM"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "directionality": "bidi",
+  "finetuning_task": null,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "model_type": "bert",
+  "num_attention_heads": 12,
+  "num_hidden_layers": 12,
+  "num_labels": 7,
+  "output_attentions": false,
+  "output_hidden_states": false,
+  "pad_token_id": 0,
+  "pooler_fc_size": 768,
+  "pooler_num_attention_heads": 12,
+  "pooler_num_fc_layers": 3,
+  "pooler_size_per_head": 128,
+  "pooler_type": "first_token_transform",
+  "pruned_heads": {},
+  "torchscript": false,
+  "type_vocab_size": 2,
+  "vocab_size": 21128
+}
+
+01/29/2022 09:49:17 - INFO - pytorch_transformers.modeling_utils -   loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-chinese-pytorch_model.bin from cache at C:\Users\sunyh\.cache\torch\pytorch_tran
+sformers\b1b5e295889f2d0979ede9a78ad9cb5dc6a0e25ab7f9417b315f0a2c22f4683d.929717ca66a3ba9eb9ec2f85973c6398c54c38a4faa464636a491d7a705f7eb6
+01/29/2022 09:49:19 - INFO - pytorch_transformers.modeling_utils -   Weights of BERT_BiLSTM_CRF not initialized from pretrained model: ['birnn.weight_ih_l0', 'birnn.weight_hh_l0', 'birnn.bias_ih_l0', 'birnn.bias_hh_l0', 'birnn.weigh
+t_ih_l0_reverse', 'birnn.weight_hh_l0_reverse', 'birnn.bias_ih_l0_reverse', 'birnn.bias_hh_l0_reverse', 'hidden2tag.weight', 'hidden2tag.bias', 'crf.start_transitions', 'crf.end_transitions', 'crf.transitions']
+01/29/2022 09:49:19 - INFO - pytorch_transformers.modeling_utils -   Weights from pretrained model not used in BERT_BiLSTM_CRF: ['cls.predictions.bias', 'cls.predictions.transform.dense.weight', 'cls.predictions.transform.dense.bias
+', 'cls.predictions.decoder.weight', 'cls.seq_relationship.weight', 'cls.seq_relationship.bias', 'cls.predictions.transform.LayerNorm.weight', 'cls.predictions.transform.LayerNorm.bias']
+convert examples: 0it [00:00, ?it/s]01/29/2022 09:49:27 - INFO - utils -   *** Example ***
+01/29/2022 09:49:27 - INFO - utils -   guid: 0
+01/29/2022 09:49:27 - INFO - utils -   tokens: [CLS] 这 并 不 是 东 方 精 工 第 一 次 终 止 收 购 机 器 人 公 司 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NUL
+L** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **N
+ULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** *
+*NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+ **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL
+** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NU
+LL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **
+NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+**NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL*
+* **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:49:27 - INFO - utils -   input_ids: 101 6821 2400 679 3221 691 3175 5125 2339 5018 671 3613 5303 3632 3119 6579 3322 1690 782 1062 1385 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   label_ids: 4 4 4 4 4 1 0 0 0 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   *** Example ***
+01/29/2022 09:49:27 - INFO - utils -   guid: 1
+01/29/2022 09:49:27 - INFO - utils -   tokens: [CLS] 于 一 月 十 九 日 与 利 迅 达 签 署 了 终 止 协 议 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NUL
+L** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **N
+ULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** *
+*NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+ **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL
+** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NU
+LL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **
+NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+**NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL*
+* **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:49:27 - INFO - utils -   input_ids: 101 754 671 3299 1282 736 3189 680 1164 6813 6809 5041 5392 749 5303 3632 1291 6379 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   label_ids: 4 4 4 4 4 4 4 4 1 0 0 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   *** Example ***
+01/29/2022 09:49:27 - INFO - utils -   guid: 2
+01/29/2022 09:49:27 - INFO - utils -   tokens: [CLS] 利 迅 达 公 司 目 前 已 经 有 了 自 己 上 市 的 打 算 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **
+NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+**NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL*
+* **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NUL
+L** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **N
+ULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** *
+*NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+ **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL
+** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NU
+LL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:49:27 - INFO - utils -   input_ids: 101 1164 6813 6809 1062 1385 4680 1184 2347 5307 3300 749 5632 2346 677 2356 4638 2802 5050 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   label_ids: 4 1 0 0 0 0 4 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   *** Example ***
+01/29/2022 09:49:27 - INFO - utils -   guid: 3
+01/29/2022 09:49:27 - INFO - utils -   tokens: [CLS] 发 现 中 国 的 机 器 人 产 业 群 处 于 很 尴 尬 的 境 地 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+ **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL
+** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NU
+LL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **
+NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+**NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL*
+* **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NUL
+L** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **N
+ULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** *
+*NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:49:27 - INFO - utils -   input_ids: 101 1355 4385 704 1744 4638 3322 1690 782 772 689 5408 1905 754 2523 2219 2217 4638 1862 1765 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   label_ids: 4 4 4 2 5 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   *** Example ***
+01/29/2022 09:49:27 - INFO - utils -   guid: 4
+01/29/2022 09:49:27 - INFO - utils -   tokens: [CLS] 关 于 东 方 精 工 在 机 器 人 领 域 的 业 务 布 局 和 规 划 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NUL
+L** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **N
+ULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** *
+*NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+ **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL
+** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NU
+LL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **
+NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+**NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL*
+* **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:49:27 - INFO - utils -   input_ids: 101 1068 754 691 3175 5125 2339 1762 3322 1690 782 7566 1818 4638 689 1218 2357 2229 1469 6226 1153 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:49:27 - INFO - utils -   label_ids: 4 4 4 1 0 0 0 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+convert examples: 34102it [01:09, 493.37it/s]
+convert examples: 0it [00:00, ?it/s]01/29/2022 09:50:37 - INFO - utils -   *** Example ***
+01/29/2022 09:50:37 - INFO - utils -   guid: 0
+01/29/2022 09:50:37 - INFO - utils -   tokens: [CLS] 分 别 下 降 百 分 之 五 点 一 和 百 分 之 四 点 二 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NUL
+L** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **N
+ULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** *
+*NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+ **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL
+** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NU
+LL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **
+NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+**NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL*
+* **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:50:37 - INFO - utils -   input_ids: 101 1146 1166 678 7360 4636 1146 722 758 4157 671 1469 4636 1146 722 1724 4157 753 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   label_ids: 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   *** Example ***
+01/29/2022 09:50:37 - INFO - utils -   guid: 1
+01/29/2022 09:50:37 - INFO - utils -   tokens: [CLS] 其 在 出 行 成 都 打 车 时 被 司 机 找 了 四 张 同 号 的 二 元 零 元 假 币 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+ **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL
+** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NU
+LL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **
+NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+**NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL*
+* **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NUL
+L** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **N
+ULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** *
+*NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:50:37 - INFO - utils -   input_ids: 101 1071 1762 1139 6121 2768 6963 2802 6756 3198 6158 1385 3322 2823 749 1724 2476 1398 1384 4638 753 1039 7439 1039 969 2355 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   label_ids: 4 4 4 4 4 2 5 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   *** Example ***
+01/29/2022 09:50:37 - INFO - utils -   guid: 2
+01/29/2022 09:50:37 - INFO - utils -   tokens: [CLS] 有 的 地 方 将 二 氧 化 硫 排 污 费 征 收 标 准 提 高 了 一 倍 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **
+NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+**NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL*
+* **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NUL
+L** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **N
+ULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** *
+*NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+ **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL
+** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NU
+LL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:50:37 - INFO - utils -   input_ids: 101 3300 4638 1765 3175 2199 753 3709 1265 4800 2961 3738 6589 2519 3119 3403 1114 2990 7770 749 671 945 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   label_ids: 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   *** Example ***
+01/29/2022 09:50:37 - INFO - utils -   guid: 3
+01/29/2022 09:50:37 - INFO - utils -   tokens: [CLS] 一 定 会 转 嫁 给 央 视 和 中 超 一 三 个 城 市 所 在 省 市 电 视 台 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NUL
+L** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **N
+ULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** *
+*NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+ **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL
+** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NU
+LL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **
+NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+**NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL*
+* **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:50:37 - INFO - utils -   input_ids: 101 671 2137 833 6760 2063 5314 1925 6228 1469 704 6631 671 676 702 1814 2356 2792 1762 4689 2356 4510 6228 1378 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   label_ids: 4 4 4 4 4 4 4 1 0 4 1 0 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   *** Example ***
+01/29/2022 09:50:37 - INFO - utils -   guid: 4
+01/29/2022 09:50:37 - INFO - utils -   tokens: [CLS] 网 络 评 论 认 为 原 因 是 孙 海 英 早 先 的 不 当 言 论 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+ **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL
+** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NU
+LL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **
+NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+**NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL*
+* **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NUL
+L** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **N
+ULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** *
+*NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:50:37 - INFO - utils -   input_ids: 101 5381 5317 6397 6389 6371 711 1333 1728 3221 2101 3862 5739 3193 1044 4638 679 2496 6241 6389 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:50:37 - INFO - utils -   label_ids: 4 4 4 4 4 4 4 4 4 4 6 3 3 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+convert examples: 4440it [00:08, 539.08it/s]
+01/29/2022 09:50:45 - INFO - __main__ -   ***** Running training *****
+01/29/2022 09:50:45 - INFO - __main__ -     Num examples = 34102
+01/29/2022 09:50:45 - INFO - __main__ -     Num Epochs = 10
+01/29/2022 09:50:45 - INFO - __main__ -     Total optimization steps = 10660
+Iteration:   0%|                                                                                                                                                                                              | 0/1066 [00:01<?, ?it/s]
+Epoch:   0%|                                                                                                                                                                                                    | 0/10 [00:01<?, ?it/s]
+Traceback (most recent call last):
+  File "ner.py", line 366, in <module>
+    main()
+  File "ner.py", line 257, in main
+    outputs = model(input_ids, label_ids, segment_ids, input_mask)
+  File "E:\Users\sunyh\anaconda3\envs\py36torch\lib\site-packages\torch\nn\modules\module.py", line 493, in __call__
+    result = self.forward(*input, **kwargs)
+  File "F:\毕业论文\BERT-BiLSTM-CRF-NER-pytorch\models.py", line 29, in forward
+    emissions = self.tag_outputs(input_ids, token_type_ids, input_mask)
+  File "F:\毕业论文\BERT-BiLSTM-CRF-NER-pytorch\models.py", line 37, in tag_outputs
+    outputs = self.bert(input_ids, token_type_ids=token_type_ids, attention_mask=input_mask)
+  File "E:\Users\sunyh\anaconda3\envs\py36torch\lib\site-packages\torch\nn\modules\module.py", line 493, in __call__
+    result = self.forward(*input, **kwargs)
+  File "E:\Users\sunyh\anaconda3\envs\py36torch\lib\site-packages\pytorch_transformers\modeling_bert.py", line 710, in forward
+    head_mask=head_mask)
+  File "E:\Users\sunyh\anaconda3\envs\py36torch\lib\site-packages\torch\nn\modules\module.py", line 493, in __call__
+    result = self.forward(*input, **kwargs)
+  File "E:\Users\sunyh\anaconda3\envs\py36torch\lib\site-packages\pytorch_transformers\modeling_bert.py", line 431, in forward
+    layer_outputs = layer_module(hidden_states, attention_mask, head_mask[i])
+  File "E:\Users\sunyh\anaconda3\envs\py36torch\lib\site-packages\torch\nn\modules\module.py", line 493, in __call__
+    result = self.forward(*input, **kwargs)
+  File "E:\Users\sunyh\anaconda3\envs\py36torch\lib\site-packages\pytorch_transformers\modeling_bert.py", line 409, in forward
+    attention_outputs = self.attention(hidden_states, attention_mask, head_mask)
+  File "E:\Users\sunyh\anaconda3\envs\py36torch\lib\site-packages\torch\nn\modules\module.py", line 493, in __call__
+    result = self.forward(*input, **kwargs)
+    attention_output = self.output(self_outputs[0], input_tensor)
+  File "E:\Users\sunyh\anaconda3\envs\py36torch\lib\site-packages\torch\nn\modules\module.py", line 493, in __call__
+    result = self.forward(*input, **kwargs)
+  File "E:\Users\sunyh\anaconda3\envs\py36torch\lib\site-packages\pytorch_transformers\modeling_bert.py", line 331, in forward
+    hidden_states = self.LayerNorm(hidden_states + input_tensor)
+  File "E:\Users\sunyh\anaconda3\envs\py36torch\lib\site-packages\torch\nn\modules\module.py", line 493, in __call__
+    result = self.forward(*input, **kwargs)
+  File "E:\Users\sunyh\anaconda3\envs\py36torch\lib\site-packages\torch\nn\modules\normalization.py", line 157, in forward
+    input, self.normalized_shape, self.weight, self.bias, self.eps)
+  File "E:\Users\sunyh\anaconda3\envs\py36torch\lib\site-packages\torch\nn\functional.py", line 1725, in layer_norm
+    torch.backends.cudnn.enabled)
+RuntimeError: CUDA out of memory. Tried to allocate 24.00 MiB (GPU 0; 6.00 GiB total capacity; 4.65 GiB already allocated; 5.75 MiB free; 57.51 MiB cached)
+PS F:\毕业论文\BERT-BiLSTM-CRF-NER-pytorch> sh run.sh
+01/29/2022 09:52:33 - INFO - __main__ -   device: cuda n_gpu: 1
+./output\eval
+./output\eval\events.out.tfevents.1643420952.DESKTOP-LFL30MF
+./output\label2id.pkl
+./output\label_list.pkl
+01/29/2022 09:52:33 - INFO - utils -   loading labels info from train file and dump in ./output
+01/29/2022 09:52:36 - INFO - pytorch_transformers.tokenization_utils -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-chinese-vocab.txt from cache at C:\Users\sunyh\.cache\torch\pytorch_transformers\8a0
+c070123c1f794c42a29c6904beb7c1b8715741e235bee04aca2c7636fc83f.9b42061518a39ca00b8b52059fd2bede8daa613f8a8671500e518a8c29de8c00
+01/29/2022 09:52:37 - INFO - pytorch_transformers.modeling_utils -   loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-chinese-config.json from cache at C:\Users\sunyh\.cache\torch\pytorch_tran
+sformers\8a3b1cfe5da58286e12a0f5d7d182b8d6eca88c08e26c332ee3817548cf7e60a.f12a4f986e43d8b328f5b067a641064d67b91597567a06c7b122d1ca7dfd9741
+01/29/2022 09:52:37 - INFO - pytorch_transformers.modeling_utils -   Model config {
+  "architectures": [
+    "BertForMaskedLM"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "directionality": "bidi",
+  "finetuning_task": null,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "model_type": "bert",
+  "num_attention_heads": 12,
+  "num_hidden_layers": 12,
+  "num_labels": 7,
+  "output_attentions": false,
+  "output_hidden_states": false,
+  "pad_token_id": 0,
+  "pooler_fc_size": 768,
+  "pooler_num_attention_heads": 12,
+  "pooler_num_fc_layers": 3,
+  "pooler_size_per_head": 128,
+  "pooler_type": "first_token_transform",
+  "pruned_heads": {},
+  "torchscript": false,
+  "type_vocab_size": 2,
+  "vocab_size": 21128
+}
+
+01/29/2022 09:52:38 - INFO - pytorch_transformers.modeling_utils -   loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-chinese-pytorch_model.bin from cache at C:\Users\sunyh\.cache\torch\pytorch_tran
+sformers\b1b5e295889f2d0979ede9a78ad9cb5dc6a0e25ab7f9417b315f0a2c22f4683d.929717ca66a3ba9eb9ec2f85973c6398c54c38a4faa464636a491d7a705f7eb6
+01/29/2022 09:52:41 - INFO - pytorch_transformers.modeling_utils -   Weights of BERT_BiLSTM_CRF not initialized from pretrained model: ['birnn.weight_ih_l0', 'birnn.weight_hh_l0', 'birnn.bias_ih_l0', 'birnn.bias_hh_l0', 'birnn.weigh
+t_ih_l0_reverse', 'birnn.weight_hh_l0_reverse', 'birnn.bias_ih_l0_reverse', 'birnn.bias_hh_l0_reverse', 'hidden2tag.weight', 'hidden2tag.bias', 'crf.start_transitions', 'crf.end_transitions', 'crf.transitions']
+01/29/2022 09:52:41 - INFO - pytorch_transformers.modeling_utils -   Weights from pretrained model not used in BERT_BiLSTM_CRF: ['cls.predictions.bias', 'cls.predictions.transform.dense.weight', 'cls.predictions.transform.dense.bias
+', 'cls.predictions.decoder.weight', 'cls.seq_relationship.weight', 'cls.seq_relationship.bias', 'cls.predictions.transform.LayerNorm.weight', 'cls.predictions.transform.LayerNorm.bias']
+convert examples: 0it [00:00, ?it/s]01/29/2022 09:52:49 - INFO - utils -   *** Example ***
+01/29/2022 09:52:49 - INFO - utils -   guid: 0
+01/29/2022 09:52:49 - INFO - utils -   tokens: [CLS] 这 并 不 是 东 方 精 工 第 一 次 终 止 收 购 机 器 人 公 司 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NUL
+L** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:52:49 - INFO - utils -   input_ids: 101 6821 2400 679 3221 691 3175 5125 2339 5018 671 3613 5303 3632 3119 6579 3322 1690 782 1062 1385 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   label_ids: 4 4 4 4 4 0 2 2 2 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   *** Example ***
+01/29/2022 09:52:49 - INFO - utils -   guid: 1
+01/29/2022 09:52:49 - INFO - utils -   tokens: [CLS] 于 一 月 十 九 日 与 利 迅 达 签 署 了 终 止 协 议 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NUL
+L** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:52:49 - INFO - utils -   input_ids: 101 754 671 3299 1282 736 3189 680 1164 6813 6809 5041 5392 749 5303 3632 1291 6379 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   label_ids: 4 4 4 4 4 4 4 4 0 2 2 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   *** Example ***
+01/29/2022 09:52:49 - INFO - utils -   guid: 2
+01/29/2022 09:52:49 - INFO - utils -   tokens: [CLS] 利 迅 达 公 司 目 前 已 经 有 了 自 己 上 市 的 打 算 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **
+NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:52:49 - INFO - utils -   input_ids: 101 1164 6813 6809 1062 1385 4680 1184 2347 5307 3300 749 5632 2346 677 2356 4638 2802 5050 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   label_ids: 4 0 2 2 2 2 4 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   *** Example ***
+01/29/2022 09:52:49 - INFO - utils -   guid: 3
+01/29/2022 09:52:49 - INFO - utils -   tokens: [CLS] 发 现 中 国 的 机 器 人 产 业 群 处 于 很 尴 尬 的 境 地 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+ **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:52:49 - INFO - utils -   input_ids: 101 1355 4385 704 1744 4638 3322 1690 782 772 689 5408 1905 754 2523 2219 2217 4638 1862 1765 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   label_ids: 4 4 4 3 6 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   *** Example ***
+01/29/2022 09:52:49 - INFO - utils -   guid: 4
+01/29/2022 09:52:49 - INFO - utils -   tokens: [CLS] 关 于 东 方 精 工 在 机 器 人 领 域 的 业 务 布 局 和 规 划 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NUL
+L** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:52:49 - INFO - utils -   input_ids: 101 1068 754 691 3175 5125 2339 1762 3322 1690 782 7566 1818 4638 689 1218 2357 2229 1469 6226 1153 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:52:49 - INFO - utils -   label_ids: 4 4 4 0 2 2 2 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+convert examples: 34102it [01:04, 529.89it/s]
+convert examples: 0it [00:00, ?it/s]01/29/2022 09:53:54 - INFO - utils -   *** Example ***
+01/29/2022 09:53:54 - INFO - utils -   guid: 0
+01/29/2022 09:53:54 - INFO - utils -   tokens: [CLS] 分 别 下 降 百 分 之 五 点 一 和 百 分 之 四 点 二 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NUL
+L** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:53:54 - INFO - utils -   input_ids: 101 1146 1166 678 7360 4636 1146 722 758 4157 671 1469 4636 1146 722 1724 4157 753 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   label_ids: 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   *** Example ***
+01/29/2022 09:53:54 - INFO - utils -   guid: 1
+01/29/2022 09:53:54 - INFO - utils -   tokens: [CLS] 其 在 出 行 成 都 打 车 时 被 司 机 找 了 四 张 同 号 的 二 元 零 元 假 币 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+ **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:53:54 - INFO - utils -   input_ids: 101 1071 1762 1139 6121 2768 6963 2802 6756 3198 6158 1385 3322 2823 749 1724 2476 1398 1384 4638 753 1039 7439 1039 969 2355 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   label_ids: 4 4 4 4 4 3 6 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   *** Example ***
+01/29/2022 09:53:54 - INFO - utils -   guid: 2
+01/29/2022 09:53:54 - INFO - utils -   tokens: [CLS] 有 的 地 方 将 二 氧 化 硫 排 污 费 征 收 标 准 提 高 了 一 倍 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **
+NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:53:54 - INFO - utils -   input_ids: 101 3300 4638 1765 3175 2199 753 3709 1265 4800 2961 3738 6589 2519 3119 3403 1114 2990 7770 749 671 945 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   label_ids: 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   *** Example ***
+01/29/2022 09:53:54 - INFO - utils -   guid: 3
+01/29/2022 09:53:54 - INFO - utils -   tokens: [CLS] 一 定 会 转 嫁 给 央 视 和 中 超 一 三 个 城 市 所 在 省 市 电 视 台 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NUL
+L** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:53:54 - INFO - utils -   input_ids: 101 671 2137 833 6760 2063 5314 1925 6228 1469 704 6631 671 676 702 1814 2356 2792 1762 4689 2356 4510 6228 1378 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   label_ids: 4 4 4 4 4 4 4 0 2 4 0 2 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   *** Example ***
+01/29/2022 09:53:54 - INFO - utils -   guid: 4
+01/29/2022 09:53:54 - INFO - utils -   tokens: [CLS] 网 络 评 论 认 为 原 因 是 孙 海 英 早 先 的 不 当 言 论 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+ **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 09:53:54 - INFO - utils -   input_ids: 101 5381 5317 6397 6389 6371 711 1333 1728 3221 2101 3862 5739 3193 1044 4638 679 2496 6241 6389 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 09:53:54 - INFO - utils -   label_ids: 4 4 4 4 4 4 4 4 4 4 5 1 1 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+convert examples: 4440it [00:08, 523.58it/s]
+01/29/2022 09:54:02 - INFO - __main__ -   ***** Running training *****
+01/29/2022 09:54:02 - INFO - __main__ -     Num examples = 34102
+01/29/2022 09:54:02 - INFO - __main__ -     Num Epochs = 10
+01/29/2022 09:54:02 - INFO - __main__ -     Total optimization steps = 10660
+Iteration: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [15:26<00:00,  1.15it/s]
+01/29/2022 10:09:29 - INFO - __main__ -   ***** Running eval *****█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [15:26<00:00,  1.27it/s]
+Evaluating: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:02<00:00,  2.22it/s]
+processed 87780 tokens with 4394 phrases; found: 4954 phrases; correct: 3463.████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:02<00:00,  2.42it/s]
+accuracy:  96.07%; precision:  69.90%; recall:  78.81%; FB1:  74.09
+              LOC: precision:  68.40%; recall:  81.04%; FB1:  74.19  1899
+              ORG: precision:  63.03%; recall:  75.72%; FB1:  68.79  2088
+              PER: precision:  87.69%; recall:  80.53%; FB1:  83.96  967
+01/29/2022 10:10:32 - INFO - __main__ -   ----------the best f1 is 0.7409071459135644---------
+Iteration: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [14:29<00:00,  1.23it/s]
+01/29/2022 10:25:03 - INFO - __main__ -   ***** Running eval *****█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [14:29<00:00,  1.29it/s]
+Evaluating: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:02<00:00,  2.21it/s]
+processed 87780 tokens with 4394 phrases; found: 4799 phrases; correct: 3534.████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:02<00:00,  2.36it/s]
+accuracy:  96.52%; precision:  73.64%; recall:  80.43%; FB1:  76.88
+              LOC: precision:  72.74%; recall:  83.41%; FB1:  77.71  1838
+              ORG: precision:  69.25%; recall:  74.51%; FB1:  71.78  1870
+              PER: precision:  82.68%; recall:  85.66%; FB1:  84.14  1091
+01/29/2022 10:26:06 - INFO - __main__ -   ----------the best f1 is 0.7688458609811814---------
+Iteration: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [16:51<00:00,  1.05it/s]
+01/29/2022 10:42:59 - INFO - __main__ -   ***** Running eval *****█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [16:51<00:00,  1.07it/s]
+Evaluating: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:23<00:00,  1.66it/s]
+processed 87780 tokens with 4394 phrases; found: 4594 phrases; correct: 3493.████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:23<00:00,  1.61it/s]
+accuracy:  96.44%; precision:  76.03%; recall:  79.49%; FB1:  77.73
+              LOC: precision:  75.36%; recall:  78.04%; FB1:  76.68  1660
+              ORG: precision:  70.70%; recall:  77.73%; FB1:  74.05  1911
+              PER: precision:  87.10%; recall:  84.62%; FB1:  85.84  1023
+01/29/2022 10:44:23 - INFO - __main__ -   ----------the best f1 is 0.7772585669781931---------
+Iteration: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [20:44<00:00,  1.17s/it]
+01/29/2022 11:05:09 - INFO - __main__ -   ***** Running eval *****█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [20:44<00:00,  1.15s/it]
+Evaluating: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:25<00:00,  1.63it/s]
+processed 87780 tokens with 4394 phrases; found: 4607 phrases; correct: 3564.████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:25<00:00,  1.89it/s]
+accuracy:  96.53%; precision:  77.36%; recall:  81.11%; FB1:  79.19
+              LOC: precision:  76.12%; recall:  82.53%; FB1:  79.20  1738
+              ORG: precision:  72.83%; recall:  76.64%; FB1:  74.68  1829
+              PER: precision:  87.40%; recall:  86.32%; FB1:  86.86  1040
+01/29/2022 11:06:35 - INFO - __main__ -   ----------the best f1 is 0.7919120097766915---------
+Iteration: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [19:41<00:00,  1.11s/it]
+01/29/2022 11:26:18 - INFO - __main__ -   ***** Running eval *****█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [19:41<00:00,  1.08s/it]
+Evaluating: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:31<00:00,  1.51it/s]
+processed 87780 tokens with 4394 phrases; found: 4649 phrases; correct: 3543.████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:31<00:00,  1.62it/s]
+accuracy:  96.57%; precision:  76.21%; recall:  80.63%; FB1:  78.36
+              LOC: precision:  79.40%; recall:  80.79%; FB1:  80.09  1631
+              ORG: precision:  71.36%; recall:  76.99%; FB1:  74.07  1875
+              PER: precision:  79.62%; recall:  86.42%; FB1:  82.88  1143
+Iteration: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [18:22<00:00,  1.03s/it]
+01/29/2022 11:46:13 - INFO - __main__ -   ***** Running eval *****█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [18:22<00:00,  1.06it/s]
+Evaluating: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:10<00:00,  1.99it/s]
+processed 87780 tokens with 4394 phrases; found: 4676 phrases; correct: 3557.████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:10<00:00,  2.18it/s]
+accuracy:  96.54%; precision:  76.07%; recall:  80.95%; FB1:  78.43
+              LOC: precision:  73.05%; recall:  84.22%; FB1:  78.24  1848
+              ORG: precision:  72.39%; recall:  75.72%; FB1:  74.02  1818
+              PER: precision:  88.22%; recall:  84.62%; FB1:  86.38  1010
+Iteration: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [16:53<00:00,  1.05it/s]
+01/29/2022 12:04:17 - INFO - __main__ -   ***** Running eval *****█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [16:53<00:00,  1.03it/s]
+Evaluating: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:23<00:00,  1.67it/s]
+processed 87780 tokens with 4394 phrases; found: 4582 phrases; correct: 3582.████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:23<00:00,  1.28it/s]
+accuracy:  96.70%; precision:  78.18%; recall:  81.52%; FB1:  79.81
+              LOC: precision:  77.50%; recall:  82.10%; FB1:  79.73  1698
+              ORG: precision:  73.89%; recall:  78.83%; FB1:  76.28  1854
+              PER: precision:  86.99%; recall:  85.09%; FB1:  86.03  1030
+01/29/2022 12:05:41 - INFO - __main__ -   ----------the best f1 is 0.7981283422459893---------
+Iteration: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [17:17<00:00,  1.03it/s]
+01/29/2022 12:23:00 - INFO - __main__ -   ***** Running eval *****█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [17:17<00:00,  1.19it/s]
+Evaluating: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:07<00:00,  2.07it/s]
+processed 87780 tokens with 4394 phrases; found: 4560 phrases; correct: 3605.████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:07<00:00,  2.14it/s]
+accuracy:  96.76%; precision:  79.06%; recall:  82.04%; FB1:  80.52
+              LOC: precision:  76.93%; recall:  84.65%; FB1:  80.61  1764
+              ORG: precision:  75.46%; recall:  77.85%; FB1:  76.64  1793
+              PER: precision:  89.23%; recall:  85.00%; FB1:  87.06  1003
+01/29/2022 12:24:08 - INFO - __main__ -   ----------the best f1 is 0.8052267143176234---------
+Iteration: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [15:41<00:00,  1.13it/s]
+01/29/2022 12:39:50 - INFO - __main__ -   ***** Running eval *****█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [15:41<00:00,  1.16it/s]
+Evaluating: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:12<00:00,  1.93it/s]
+processed 87780 tokens with 4394 phrases; found: 4563 phrases; correct: 3609.████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:12<00:00,  1.86it/s]
+accuracy:  96.78%; precision:  79.09%; recall:  82.13%; FB1:  80.59
+              LOC: precision:  77.61%; recall:  84.09%; FB1:  80.72  1737
+              ORG: precision:  76.24%; recall:  77.91%; FB1:  77.06  1776
+              PER: precision:  86.38%; recall:  86.13%; FB1:  86.26  1050
+01/29/2022 12:41:03 - INFO - __main__ -   ----------the best f1 is 0.8058501730490121---------
+Iteration: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [15:48<00:00,  1.12it/s]
+01/29/2022 12:56:53 - INFO - __main__ -   ***** Running eval *****█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1066/1066 [15:48<00:00,  1.20it/s]
+Evaluating: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:10<00:00,  1.98it/s]
+processed 87780 tokens with 4394 phrases; found: 4548 phrases; correct: 3613.████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [01:10<00:00,  2.12it/s]
+accuracy:  96.79%; precision:  79.44%; recall:  82.23%; FB1:  80.81
+              LOC: precision:  78.12%; recall:  84.22%; FB1:  81.06  1728
+              ORG: precision:  75.58%; recall:  78.71%; FB1:  77.11  1810
+              PER: precision:  88.61%; recall:  85.00%; FB1:  86.77  1010
+01/29/2022 12:58:03 - INFO - __main__ -   ----------the best f1 is 0.80809662267949---------
+Epoch: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [3:04:02<00:00, 1104.23s/it]
+01/29/2022 12:58:04 - INFO - pytorch_transformers.tokenization_utils -   Model name './output' not found in model shortcut name list (bert-base-uncased, bert-large-uncased, bert-base-cased, bert-large-cased, bert-base-multilingual-u
+ncased, bert-base-multilingual-cased, bert-base-chinese, bert-base-german-cased, bert-large-uncased-whole-word-masking, bert-large-cased-whole-word-masking, bert-large-uncased-whole-word-masking-finetuned-squad, bert-large-cased-who
+le-word-masking-finetuned-squad, bert-base-cased-finetuned-mrpc). Assuming './output' is a path or url to a directory containing tokenizer files.
+01/29/2022 12:58:04 - INFO - pytorch_transformers.tokenization_utils -   loading file ./output\vocab.txt
+01/29/2022 12:58:04 - INFO - pytorch_transformers.tokenization_utils -   loading file ./output\added_tokens.json
+01/29/2022 12:58:04 - INFO - pytorch_transformers.tokenization_utils -   loading file ./output\special_tokens_map.json
+01/29/2022 12:58:04 - INFO - pytorch_transformers.tokenization_utils -   loading file ./output\tokenizer_config.json
+01/29/2022 12:58:05 - INFO - pytorch_transformers.modeling_utils -   loading configuration file ./output\config.json
+01/29/2022 12:58:05 - INFO - pytorch_transformers.modeling_utils -   Model config {
+  "architectures": [
+    "BertForMaskedLM"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "directionality": "bidi",
+  "finetuning_task": null,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "model_type": "bert",
+  "num_attention_heads": 12,
+  "num_hidden_layers": 12,
+  "num_labels": 7,
+  "output_attentions": false,
+  "output_hidden_states": false,
+  "pad_token_id": 0,
+  "pooler_fc_size": 768,
+  "pooler_num_attention_heads": 12,
+  "pooler_num_fc_layers": 3,
+  "pooler_size_per_head": 128,
+  "pooler_type": "first_token_transform",
+  "pruned_heads": {},
+  "torchscript": false,
+  "type_vocab_size": 2,
+  "vocab_size": 21128
+}
+
+01/29/2022 12:58:05 - INFO - pytorch_transformers.modeling_utils -   loading weights file ./output\pytorch_model.bin
+convert examples: 0it [00:00, ?it/s]01/29/2022 12:58:08 - INFO - utils -   *** Example ***
+01/29/2022 12:58:08 - INFO - utils -   guid: 0
+01/29/2022 12:58:08 - INFO - utils -   tokens: [CLS] 而 此 刻 日 本 选 手 孤 山 信 竟 做 出 无 理 挑 衅 在 拍 照 环 节 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+ **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 12:58:08 - INFO - utils -   input_ids: 101 5445 3634 1174 3189 3315 6848 2797 2109 2255 928 4994 976 1139 3187 4415 2904 6119 1762 2864 4212 4384 5688 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   label_ids: 4 4 4 4 3 6 4 4 5 1 1 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   *** Example ***
+01/29/2022 12:58:08 - INFO - utils -   guid: 1
+01/29/2022 12:58:08 - INFO - utils -   tokens: [CLS] 目 前 的 新 房 可 售 量 消 化 时 间 为 三 十 四 周 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NUL
+L** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 12:58:08 - INFO - utils -   input_ids: 101 4680 1184 4638 3173 2791 1377 1545 7030 3867 1265 3198 7313 711 676 1282 1724 1453 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   label_ids: 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   *** Example ***
+01/29/2022 12:58:08 - INFO - utils -   guid: 2
+01/29/2022 12:58:08 - INFO - utils -   tokens: [CLS] 新 华 社 北 京 八 月 十 一 日 体 育 专 电 中 国 足 协 十 一 日 消 息 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NUL
+L** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 12:58:08 - INFO - utils -   input_ids: 101 3173 1290 4852 1266 776 1061 3299 1282 671 3189 860 5509 683 4510 704 1744 6639 1291 1282 671 3189 3867 2622 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   label_ids: 4 0 2 2 3 6 4 4 4 4 4 4 4 4 4 0 2 2 2 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   *** Example ***
+01/29/2022 12:58:08 - INFO - utils -   guid: 3
+01/29/2022 12:58:08 - INFO - utils -   tokens: [CLS] 北 京 市 统 计 局 副 局 长 兼 新 闻 发 言 人 夏 沁 芳 则 指 出 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **
+NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 12:58:08 - INFO - utils -   input_ids: 101 1266 776 2356 5320 6369 2229 1199 2229 7270 1076 3173 7319 1355 6241 782 1909 3751 5710 1156 2900 1139 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   label_ids: 4 0 2 2 2 2 2 4 4 4 4 4 4 4 4 4 5 1 1 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   *** Example ***
+01/29/2022 12:58:08 - INFO - utils -   guid: 4
+01/29/2022 12:58:08 - INFO - utils -   tokens: [CLS] 冲 着 执 行 公 务 的 交 警 大 喊 我 儿 子 是 国 防 生 [SEP] **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **
+NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL** **NULL**
+01/29/2022 12:58:08 - INFO - utils -   input_ids: 101 1103 4708 2809 6121 1062 1218 4638 769 6356 1920 1591 2769 1036 2094 3221 1744 7344 4495 102 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   input_mask: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   segment_ids: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+01/29/2022 12:58:08 - INFO - utils -   label_ids: 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+convert examples: 4445it [00:08, 526.26it/s]
+01/29/2022 12:58:16 - INFO - __main__ -   ***** Running test *****
+01/29/2022 12:58:16 - INFO - __main__ -    Num examples = 4445
+01/29/2022 12:58:16 - INFO - __main__ -    Batch size = 32
+Predicting: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 139/139 [00:40<00:00,  3.47it/s]
+4445
+PS F:\毕业论文\BERT-BiLSTM-CRF-NER-pytorch>
+

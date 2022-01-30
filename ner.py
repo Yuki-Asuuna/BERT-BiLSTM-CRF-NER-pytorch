@@ -244,7 +244,7 @@ def main():
         logger.info("  Num examples = %d", len(train_data))
         logger.info("  Num Epochs = %d", args.num_train_epochs)
         logger.info("  Total optimization steps = %d", t_total)
-
+        print(model)
         model.train()
         global_step = 0
         tr_loss, logging_loss = 0.0, 0.0

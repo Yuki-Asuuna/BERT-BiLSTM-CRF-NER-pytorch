@@ -40,7 +40,7 @@ class NerProcessor(object):
             
             for line in f.readlines():   
                 contends = line.strip()
-                tokens = line.strip().split("\t")
+                tokens = line.strip().split(" ")
 
                 if len(tokens) == 2:
                     words.append(tokens[0])
@@ -68,9 +68,9 @@ class NerProcessor(object):
         else:
             # get labels from train data
             logger.info(f"loading labels info from train file and dump in {args.output_dir}")
-            with open(args.train_file) as f:
+            with open(args.train_file,encoding='utf-8') as f:
                 for line in f.readlines():
-                    tokens = line.strip().split("\t")
+                    tokens = line.strip().split(" ")
 
                     if len(tokens) == 2:
                         labels.add(tokens[1])
