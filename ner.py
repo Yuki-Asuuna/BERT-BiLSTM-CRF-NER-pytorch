@@ -70,7 +70,8 @@ def evaluate(args, data, model, id2label, all_ori_tokens, eval_audio):
         sentence_ids = sentence_ids.to(args.device)
 
         with torch.no_grad():
-            logits = model.predict(input_ids, segment_ids, input_mask, sentence_ids)
+            audio_data = list(eval_audio[i] for i in sentence_ids)
+            logits = model.predict(input_ids, segment_ids, input_mask, audio_data)
         # logits = torch.argmax(F.log_softmax(logits, dim=2), dim=2)
         # logits = logits.detach().cpu().numpy()
 
@@ -386,7 +387,8 @@ def main():
             sentence_ids = sentence_ids.to(device)
 
             with torch.no_grad():
-                logits = model.predict(input_ids, segment_ids, input_mask, sentence_ids)
+                audio_data = list(test_audio[i] for i in sentence_ids)
+                logits = model.predict(input_ids, segment_ids, input_mask, audio_data)
             # logits = torch.argmax(F.log_softmax(logits, dim=2), dim=2)
             # logits = logits.detach().cpu().numpy()
 

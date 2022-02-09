@@ -32,8 +32,17 @@ class BERT_BiLSTM_CRF(BertPreTrainedModel):
         if need_audio:
             # 语音LSTM层
             self.birnn_audio = nn.LSTM(39, rnn_dim_audio, num_layers=1, bidirectional=True, batch_first=True)
+            # Attention Layer Definition
+            self.u = nn.Parameter(torch.Tensor(rnn_dim_audio))
+            self.v = nn.Parameter(torch.Tensor(rnn_dim_text))
+            self.b = nn.Parameter(torch.tensor(1.0))
+            nn.init.uniform_(self.u, -0.1, 0.1)
+            nn.init.uniform_(self.v, -0.1, 0.1)
+            # Attention Layer Definition End
+
             # 多模态融合层
-            self.birnn_fuse = nn.LSTM(rnn_dim_text * 2 + rnn_dim_audio * 2, rnn_dim_fused, num_layers=1, bidirectional=True,
+            self.birnn_fuse = nn.LSTM(rnn_dim_text * 2 + rnn_dim_audio * 2, rnn_dim_fused, num_layers=1,
+                                      bidirectional=True,
                                       batch_first=True)
             out_dim = rnn_dim_fused * 2
 
@@ -60,16 +69,22 @@ class BERT_BiLSTM_CRF(BertPreTrainedModel):
 
         outputs = self.bert(input_ids, token_type_ids=token_type_ids, attention_mask=input_mask)
 
-        sequence_output = outputs[0]
+        sequence_output_text = outputs[0]
 
+        # 文本LSTM
         if self.need_text:
-            sequence_output, _ = self.birnn_text(sequence_output)
+            sequence_output_text, _ = self.birnn_text(sequence_output_text)
 
-        sequence_output = self.dropout(sequence_output)
-        emissions = self.hidden2tag(sequence_output)
+        # 语音LSTM
+        if self.need_audio:
+            sequence_output_audio, _ = self.birnn_audio(audio_feat)
+
+        sequence_output_text = self.dropout(sequence_output_text)
+        emissions = self.hidden2tag(sequence_output_text)
 
         return emissions
 
-    def predict(self, input_ids, token_type_ids=None, input_mask=None, sentence_ids=None):
-        emissions = self.tag_outputs(input_ids, token_type_ids, input_mask)
+    def predict(self, input_ids, token_type_ids=None, input_mask=None, audio_data=None):
+        audio_feat = self.audio_feat_extract(audio_data)
+        emissions = self.tag_outputs(input_ids, token_type_ids, input_mask, audio_feat)
         return self.crf.decode(emissions, input_mask.byte())
