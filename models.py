@@ -33,9 +33,10 @@ class BERT_BiLSTM_CRF(BertPreTrainedModel):
             # 语音LSTM层
             self.birnn_audio = nn.LSTM(39, rnn_dim_audio, num_layers=1, bidirectional=True, batch_first=True)
             # Attention Layer Definition
-            self.u = nn.Parameter(torch.Tensor(rnn_dim_audio))
-            self.v = nn.Parameter(torch.Tensor(rnn_dim_text))
+            self.u = nn.Parameter(torch.Tensor(1, rnn_dim_audio * 2))
+            self.v = nn.Parameter(torch.Tensor(1, rnn_dim_text * 2))
             self.b = nn.Parameter(torch.tensor(1.0))
+            # Initialize
             nn.init.uniform_(self.u, -0.1, 0.1)
             nn.init.uniform_(self.v, -0.1, 0.1)
             # Attention Layer Definition End
@@ -52,7 +53,7 @@ class BERT_BiLSTM_CRF(BertPreTrainedModel):
     def audio_feat_extract(self, audio_data):
         ret = []
         for a in audio_data:
-            f = mfcc39(a, winlen=0.05, winstep=0.03, nfilt=13, nfft=1024, max_frame_length=500)
+            f = mfcc39(a, winlen=0.05, winstep=0.05, nfilt=13, nfft=1024, max_frame_length=200)
             ret.append(f)
         return torch.Tensor(np.stack(ret))
 
@@ -78,11 +79,38 @@ class BERT_BiLSTM_CRF(BertPreTrainedModel):
         # 语音LSTM
         if self.need_audio:
             sequence_output_audio, _ = self.birnn_audio(audio_feat)
+            # a_j_i=tanh(u*s_i+v*h_j+b)
+            # s_i => (1,rnn_dim_audio*2),h_j => (1,rnn_dim_text*2)
+            batch_num = sequence_output_text.size(0)
+            frame_num = sequence_output_audio.size(1)
+            word_num = sequence_output_text.size(1)
+            alpha = torch.randn((word_num, frame_num))
+            for k in range(batch_num):
+                for j in range(word_num):
+                    for i in range(frame_num):
+                        alpha[j][i] = torch.mm(sequence_output_audio[k][i].unsqueeze(0), self.u.t()) + torch.mm(sequence_output_text[k][j].unsqueeze(0),self.v.t()) + self.b
 
-        sequence_output_text = self.dropout(sequence_output_text)
-        emissions = self.hidden2tag(sequence_output_text)
+            alpha = torch.tanh(alpha)
+            alpha = nn.functional.softmax(alpha)
 
-        return emissions
+            # 计算第j个字所对应的语音特征
+            new_h = torch.zeros(batch_num, word_num,sequence_output_audio.size(-1))
+            for k in range(batch_num):
+                for j in range(word_num):
+                    for i in range(frame_num):
+                        new_h[k][j] += alpha[j][i] * sequence_output_audio[k][i]
+
+            fuse = torch.cat((new_h,sequence_output_text),dim=-1)
+            fused_output,_ = self.birnn_fuse(fuse)
+
+            fused_output = self.dropout(fused_output)
+            emissions = self.hidden2tag(fused_output)
+
+            return emissions
+        else:
+            sequence_output_text = self.dropout(sequence_output_text)
+            emissions = self.hidden2tag(sequence_output_text)
+            return emissions
 
     def predict(self, input_ids, token_type_ids=None, input_mask=None, audio_data=None):
         audio_feat = self.audio_feat_extract(audio_data)
