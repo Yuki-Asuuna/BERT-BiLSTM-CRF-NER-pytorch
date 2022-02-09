@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.functional as F
-from TorchCRF import CRF
+from torchcrf import CRF
 
 from pytorch_transformers import BertPreTrainedModel, BertModel
 from utils import mfcc39
@@ -21,18 +21,24 @@ class BERT_BiLSTM_CRF(BertPreTrainedModel):
         self.need_text = need_text
         self.need_audio = need_audio
 
-        # 如果为False，则不要BiLSTM层
+        # 是否需要文本LSTM；若为否，则退化为baseline
         if need_text:
-            self.birnn_text = nn.LSTM(config.hidden_size, rnn_dim_text, num_layers=1, bidirectional=True, batch_first=True)
+            # hidden_size默认为768，bert字向量输出维度
+            self.birnn_text = nn.LSTM(config.hidden_size, rnn_dim_text, num_layers=1, bidirectional=True,
+                                      batch_first=True)
             out_dim = rnn_dim_text * 2
 
         # 是否需要加入音频
         if need_audio:
+            # 语音LSTM层
             self.birnn_audio = nn.LSTM(39, rnn_dim_audio, num_layers=1, bidirectional=True, batch_first=True)
+            # 多模态融合层
+            self.birnn_fuse = nn.LSTM(rnn_dim_text * 2 + rnn_dim_audio * 2, rnn_dim_fused, num_layers=1, bidirectional=True,
+                                      batch_first=True)
             out_dim = rnn_dim_fused * 2
 
         self.hidden2tag = nn.Linear(out_dim, config.num_labels)
-        self.crf = CRF(config.num_labels)
+        self.crf = CRF(config.num_labels, batch_first=True)
 
     def audio_feat_extract(self, audio_data):
         ret = []
