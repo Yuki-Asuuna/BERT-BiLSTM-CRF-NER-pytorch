@@ -54,18 +54,24 @@ class AdditiveAttention(nn.Module):
     def forward(self, queries, keys, values):
         queries, keys = self.W_q(queries), self.W_k(keys)  # 映射到相同维度 [2,1,8] [2,10,8]
         # query增加一个维度为了方便和key相加。key增加一个维度后面需要
-        features = queries.unsqueeze(2) + keys.unsqueeze(1)  # torch.Size([2, 1, 1, 8]) torch.Size([2, 1, 10, 8])
+        features = queries.unsqueeze(2) + keys.unsqueeze(1)
+        # torch.Size([2, 1, 1, 8]) torch.Size([2, 1, 10, 8])
+        # 此处的相加是指将[1,8]每一行都加到keys的每一行上，每行的长度都为8，且为行向量，才可以相加，所以需要做squeeze去强行创建行向量；如果是两个矩阵，则必须维度相同才可以相加
         # features = torch.Size([2, 1, 10, 8])
         features = torch.tanh(features)
 
-        scores = self.w_v(features)  # 8 *1
+        scores = self.w_v(features)
         # torch.Size([2, 1, 10, 1])
-        scores = scores.squeeze(-1)  # w_v消掉最后隐藏层维
+        scores = scores.squeeze(-1)
         # torch.Size([2, 1, 10]) [batch_size, word_num, frame_num]
 
         self.attention_weigths = nn.functional.softmax(scores)
+        # [batch_size, word_num, frame_num]
+
         # attention weights和values加权相加
-        return torch.bmm(self.attention_weigths, values)  # 2,1,10 2*10*4 ->2*1*4,10个value的权重加和
+        # [batch_size,frame_num,rnn_dim_audio]
+        return torch.bmm(self.attention_weigths, values)
+        # return [batch_size,word_num,rnn_dim_audio]
 
 
 class BERT_BiLSTM_CRF(BertPreTrainedModel):
