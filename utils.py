@@ -42,7 +42,7 @@ class NerProcessor(object):
             words = []
             labels = []
 
-            for line in f.readlines()[:1000]:
+            for line in f.readlines()[:]:
                 contends = line.strip()
                 tokens = line.strip().split(" ")
 

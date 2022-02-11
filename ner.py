@@ -144,12 +144,12 @@ def main():
     parser.add_argument("--cache_dir", default="", type=str,
                         help="Where do you want to store the pre-trained models downloaded from s3")
 
-    parser.add_argument("--max_seq_length", default=256, type=int)
+    parser.add_argument("--max_seq_length", default=40, type=int)
     parser.add_argument("--do_train", default=False, type=boolean_string)
     parser.add_argument("--do_eval", default=False, type=boolean_string)
     parser.add_argument("--do_test", default=False, type=boolean_string)
-    parser.add_argument("--train_batch_size", default=8, type=int)
-    parser.add_argument("--eval_batch_size", default=8, type=int)
+    parser.add_argument("--train_batch_size", default=32, type=int)
+    parser.add_argument("--eval_batch_size", default=32, type=int)
     parser.add_argument("--learning_rate", default=3e-5, type=float)
     parser.add_argument("--num_train_epochs", default=10, type=float)
     parser.add_argument("--warmup_proprotion", default=0.1, type=float)
@@ -166,7 +166,7 @@ def main():
     parser.add_argument("--logging_steps", default=500, type=int)
     parser.add_argument("--clean", default=False, type=boolean_string, help="clean the output dir")
 
-    parser.add_argument("--need_text", default=False, type=boolean_string)
+    parser.add_argument("--need_text", default=True, type=boolean_string)
     parser.add_argument("--rnn_dim_text", default=128, type=int)
     parser.add_argument("--need_audio", default=False, type=boolean_string)
     parser.add_argument("--rnn_dim_audio", default=128, type=int)

@@ -5,6 +5,7 @@ import python_speech_features
 from python_speech_features import mfcc
 import numpy as np
 import os
+import matplotlib.pyplot as plt
 
 max_frame_len = 0
 
@@ -70,8 +71,29 @@ def extraction():
     print('shape=', res.shape)
     np.save('audio_feature.npy', res)
 
-if __name__ == '__main__':
+def statSentence():
+    objs_1 = readFiles('./ori/train.json')
+    objs_2 = readFiles('./ori/test.json')
+    objs_3 = readFiles('./ori/valid.json')
 
+    x = []
+    for obj in objs_1+objs_2+objs_3:
+        sentence = obj['sentence']
+        x.append(len(sentence))
+
+    nx = np.bincount(x)
+    #for (i,cnt) in enumerate(nx):
+    #    print(i,cnt)
+    plt.bar(range(len(nx)),nx,width=0.3)
+    plt.xticks(range(len(nx)))
+    #plt.xlabel('句子长度')
+    #plt.ylabel('句子条数')
+    #plt.title('文本句子长度分布')
+    plt.show()
+
+if __name__ == '__main__':
+    # statSentence()
     pass
+
 
 
