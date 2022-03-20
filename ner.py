@@ -49,7 +49,7 @@ def boolean_string(s):
     return s == 'True'
 
 
-def evaluate(args, data, model, id2label, all_ori_tokens, eval_audio):
+def evaluate(args, data, model, id2label, all_ori_tokens):
     model.eval()
     sampler = SequentialSampler(data)
     dataloader = DataLoader(data, sampler=sampler, batch_size=args.train_batch_size)
@@ -70,8 +70,7 @@ def evaluate(args, data, model, id2label, all_ori_tokens, eval_audio):
         sentence_ids = sentence_ids.to(args.device)
 
         with torch.no_grad():
-            audio_data = list(eval_audio[i] for i in sentence_ids)
-            logits = model.predict(input_ids, segment_ids, input_mask, audio_data)
+            logits = model.predict(input_ids, segment_ids, input_mask, sentence_ids)
         # logits = torch.argmax(F.log_softmax(logits, dim=2), dim=2)
         # logits = logits.detach().cpu().numpy()
 
@@ -99,31 +98,7 @@ def evaluate(args, data, model, id2label, all_ori_tokens, eval_audio):
     return overall, by_type
 
 
-def readFiles(filePath: str):
-    objs = []
-    with open(filePath, encoding='utf-8') as f:
-        for line in f.read().splitlines():
-            # print(line)
-            obj = json.loads(line)
-            objs.append(obj)
-    return objs
 
-
-def readAudioList(mode='train'):
-    file_name = './ori/' + mode + '.json'
-    objs = readFiles(file_name)
-    ret = []
-    folder_name = ['train', 'dev', 'test']
-    for obj in objs:
-        audio_name = obj['audio']
-        prefix = audio_name[6:11]
-        full_path = ''
-        for fn in folder_name:
-            full_path = '/Users/bytedance/data_aishell/wav/' + prefix + '/' + fn + '/' + prefix + '/' + audio_name + '.wav'
-            if os.path.exists(full_path) == True:
-                break
-        ret.append(full_path)
-    return ret
 
 
 def main():
@@ -241,10 +216,9 @@ def main():
     id2label = {value: key for key, value in label2id.items()}
 
     # Prepare optimizer and schedule (linear warmup and decay)
-
-    train_audio = readAudioList(mode='train')
-    eval_audio = readAudioList(mode='valid')
-    test_audio = readAudioList(mode='test')
+    # train_audio = readAudioList(mode='train')
+    # eval_audio = readAudioList(mode='valid')
+    # test_audio = readAudioList(mode='test')
     if args.do_train:
 
         tokenizer = BertTokenizer.from_pretrained(
@@ -298,8 +272,8 @@ def main():
             for step, batch in enumerate(tqdm(train_dataloader, desc="Iteration")):
                 batch = tuple(t.to(device) for t in batch)
                 input_ids, input_mask, segment_ids, label_ids, sentence_ids = batch
-                audio_data = list(train_audio[i] for i in sentence_ids)
-                outputs = model(input_ids, label_ids, segment_ids, input_mask, audio_data)
+                mode = torch.tensor(0).to(device)
+                outputs = model(input_ids, label_ids, segment_ids, input_mask, sentence_ids, mode)
                 loss = outputs
 
                 if n_gpu > 1:
@@ -322,7 +296,7 @@ def main():
 
             if args.do_eval:
                 all_ori_tokens_eval = [f.ori_tokens for f in eval_features]
-                overall, by_type = evaluate(args, eval_data, model, id2label, all_ori_tokens_eval, eval_audio)
+                overall, by_type = evaluate(args, eval_data, model, id2label, all_ori_tokens_eval)
 
                 # add eval result to tensorboard
                 f1_score = overall.fscore
@@ -387,7 +361,7 @@ def main():
             sentence_ids = sentence_ids.to(device)
 
             with torch.no_grad():
-                audio_data = list(test_audio[i] for i in sentence_ids)
+                audio_data = list(i for i in sentence_ids)
                 logits = model.predict(input_ids, segment_ids, input_mask, audio_data)
             # logits = torch.argmax(F.log_softmax(logits, dim=2), dim=2)
             # logits = logits.detach().cpu().numpy()

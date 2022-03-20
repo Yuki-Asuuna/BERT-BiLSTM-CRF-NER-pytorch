@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import json,os
 import torch.functional as F
 from torchcrf import CRF
 
@@ -8,6 +9,35 @@ from utils import mfcc39
 import numpy as np
 from typing import Tuple
 
+def readFiles(filePath: str):
+    objs = []
+    with open(filePath, encoding='utf-8') as f:
+        for line in f.read().splitlines():
+            # print(line)
+            obj = json.loads(line)
+            objs.append(obj)
+    return objs
+
+
+def readAudioList(mode='train'):
+    file_name = './ori/' + mode + '.json'
+    objs = readFiles(file_name)
+    ret = []
+    folder_name = ['train', 'dev', 'test']
+    for obj in objs:
+        audio_name = obj['audio']
+        prefix = audio_name[6:11]
+        full_path = ''
+        for fn in folder_name:
+            full_path = 'F:/毕业论文/data_aishell/wav/' + prefix + '/' + fn + '/'+ prefix + '/' + audio_name + '.wav'
+            if os.path.exists(full_path) == True:
+                break
+        ret.append(full_path)
+    return ret
+
+train_audio = readAudioList(mode='train')
+eval_audio = readAudioList(mode='valid')
+test_audio = readAudioList(mode='test')
 
 # class AdditiveAttention(nn.Module):
 #     """
@@ -121,10 +151,11 @@ class BERT_BiLSTM_CRF(BertPreTrainedModel):
             ret.append(f)
         return torch.Tensor(np.stack(ret))
 
-    def forward(self, input_ids, tags, token_type_ids=None, input_mask=None, audio_data=None):
+    def forward(self, input_ids, tags, token_type_ids=None, input_mask=None, sentence_id=None, mode=None):
         # audio_data 为该batch对应的文件列表
         # 获取批次音频数据的mfcc特征
-        audio_feat = self.audio_feat_extract(audio_data)
+        audio_data = (train_audio[id] for id in sentence_id)
+        audio_feat = self.audio_feat_extract(audio_data).to("cuda")
         emissions = self.tag_outputs(input_ids, token_type_ids, input_mask, audio_feat)
         loss = -1 * self.crf(emissions, tags, mask=input_mask.byte())
 
@@ -157,9 +188,10 @@ class BERT_BiLSTM_CRF(BertPreTrainedModel):
             emissions = self.hidden2tag(sequence_output_text)
             return emissions
 
-    def predict(self, input_ids, token_type_ids=None, input_mask=None, audio_data=None):
+    def predict(self, input_ids, token_type_ids=None, input_mask=None, sentence_id=None):
         audio_feat = None
         if self.need_audio:
-            audio_feat = self.audio_feat_extract(audio_data)
+            audio_data = (eval_audio[id] for id in sentence_id)
+            audio_feat = self.audio_feat_extract(audio_data).to("cuda")
         emissions = self.tag_outputs(input_ids, token_type_ids, input_mask, audio_feat)
         return self.crf.decode(emissions, input_mask.byte())

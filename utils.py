@@ -108,7 +108,7 @@ def convert_examples_to_features(args, examples, label_list, max_seq_length, tok
 
     features = []
 
-    for (ex_index, example) in tqdm(enumerate(examples), desc="convert examples"):
+    for (ex_index, example) in tqdm(enumerate(examples[:-1]), desc="convert examples"):
         # if ex_index % 10000 == 0:
         #     logger.info("Writing example %d of %d" % (ex_index, len(examples)))
 
@@ -241,5 +241,8 @@ def mfcc39(filename,winlen=0.05,winstep=0.03,nfilt=13,nfft=1024,max_frame_length
     mfccs = np.hstack((mfcc_feature, d_mfcc_feat, d_mfcc_feat2))
     # 返回 帧数*39 的mfccs参数
     pad_delta = max_frame_length - len(mfccs)
-    mfccs = np.row_stack((mfccs, np.zeros((pad_delta, 39))))
+    if pad_delta < 0:
+        mfccs = mfccs[:max_frame_length]
+    else:
+        mfccs = np.row_stack((mfccs, np.zeros((pad_delta, 39))))
     return mfccs
