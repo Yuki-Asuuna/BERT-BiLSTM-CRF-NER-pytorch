@@ -60,15 +60,17 @@ def evaluate(args, data, model, id2label, all_ori_tokens):
     pred_labels = []
     ori_labels = []
 
-    for b_i, (input_ids, input_mask, segment_ids, label_ids) in enumerate(tqdm(dataloader, desc="Evaluating")):
+    for b_i, (input_ids, input_mask, segment_ids, label_ids, sentence_ids) in enumerate(
+            tqdm(dataloader, desc="Evaluating")):
 
         input_ids = input_ids.to(args.device)
         input_mask = input_mask.to(args.device)
         segment_ids = segment_ids.to(args.device)
         label_ids = label_ids.to(args.device)
+        sentence_ids = sentence_ids.to(args.device)
 
         with torch.no_grad():
-            logits = model.predict(input_ids, segment_ids, input_mask)
+            logits = model.predict(input_ids, segment_ids, input_mask, sentence_ids)
         # logits = torch.argmax(F.log_softmax(logits, dim=2), dim=2)
         # logits = logits.detach().cpu().numpy()
 
@@ -96,6 +98,9 @@ def evaluate(args, data, model, id2label, all_ori_tokens):
     return overall, by_type
 
 
+
+
+
 def main():
     parser = argparse.ArgumentParser()
 
@@ -114,12 +119,12 @@ def main():
     parser.add_argument("--cache_dir", default="", type=str,
                         help="Where do you want to store the pre-trained models downloaded from s3")
 
-    parser.add_argument("--max_seq_length", default=256, type=int)
+    parser.add_argument("--max_seq_length", default=40, type=int)
     parser.add_argument("--do_train", default=False, type=boolean_string)
     parser.add_argument("--do_eval", default=False, type=boolean_string)
     parser.add_argument("--do_test", default=False, type=boolean_string)
-    parser.add_argument("--train_batch_size", default=8, type=int)
-    parser.add_argument("--eval_batch_size", default=8, type=int)
+    parser.add_argument("--train_batch_size", default=32, type=int)
+    parser.add_argument("--eval_batch_size", default=32, type=int)
     parser.add_argument("--learning_rate", default=3e-5, type=float)
     parser.add_argument("--num_train_epochs", default=10, type=float)
     parser.add_argument("--warmup_proprotion", default=0.1, type=float)
@@ -136,12 +141,15 @@ def main():
     parser.add_argument("--logging_steps", default=500, type=int)
     parser.add_argument("--clean", default=False, type=boolean_string, help="clean the output dir")
 
-    parser.add_argument("--need_birnn", default=False, type=boolean_string)
-    parser.add_argument("--rnn_dim", default=128, type=int)
+    parser.add_argument("--need_text", default=True, type=boolean_string)
+    parser.add_argument("--rnn_dim_text", default=128, type=int)
+    parser.add_argument("--need_audio", default=False, type=boolean_string)
+    parser.add_argument("--rnn_dim_audio", default=128, type=int)
+    parser.add_argument("--rnn_dim_fused", default=128, type=int)
 
     args = parser.parse_args()
 
-    device = torch.device("cuda")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_
     args.device = device
     n_gpu = torch.cuda.device_count()
@@ -208,7 +216,9 @@ def main():
     id2label = {value: key for key, value in label2id.items()}
 
     # Prepare optimizer and schedule (linear warmup and decay)
-
+    # train_audio = readAudioList(mode='train')
+    # eval_audio = readAudioList(mode='valid')
+    # test_audio = readAudioList(mode='test')
     if args.do_train:
 
         tokenizer = BertTokenizer.from_pretrained(
@@ -217,7 +227,8 @@ def main():
         config = BertConfig.from_pretrained(args.config_name if args.config_name else args.model_name_or_path,
                                             num_labels=num_labels)
         model = BERT_BiLSTM_CRF.from_pretrained(args.model_name_or_path, config=config,
-                                                need_birnn=args.need_birnn, rnn_dim=args.rnn_dim)
+                                                need_text=args.need_text, rnn_dim_text=args.rnn_dim_text,
+                                                need_audio=args.need_audio, rnn_dim_audio=args.rnn_dim_audio,rnn_dim_fused=args.rnn_dim_fused)
 
         model.to(device)
 
@@ -260,8 +271,9 @@ def main():
             model.train()
             for step, batch in enumerate(tqdm(train_dataloader, desc="Iteration")):
                 batch = tuple(t.to(device) for t in batch)
-                input_ids, input_mask, segment_ids, label_ids = batch
-                outputs = model(input_ids, label_ids, segment_ids, input_mask)
+                input_ids, input_mask, segment_ids, label_ids, sentence_ids = batch
+                mode = torch.tensor(0).to(device)
+                outputs = model(input_ids, label_ids, segment_ids, input_mask, sentence_ids, mode)
                 loss = outputs
 
                 if n_gpu > 1:
@@ -339,15 +351,18 @@ def main():
 
         pred_labels = []
 
-        for b_i, (input_ids, input_mask, segment_ids, label_ids) in enumerate(tqdm(test_dataloader, desc="Predicting")):
+        for b_i, (input_ids, input_mask, segment_ids, label_ids, sentence_ids) in enumerate(
+                tqdm(test_dataloader, desc="Predicting")):
 
             input_ids = input_ids.to(device)
             input_mask = input_mask.to(device)
             segment_ids = segment_ids.to(device)
             label_ids = label_ids.to(device)
+            sentence_ids = sentence_ids.to(device)
 
             with torch.no_grad():
-                logits = model.predict(input_ids, segment_ids, input_mask)
+                audio_data = list(i for i in sentence_ids)
+                logits = model.predict(input_ids, segment_ids, input_mask, audio_data)
             # logits = torch.argmax(F.log_softmax(logits, dim=2), dim=2)
             # logits = logits.detach().cpu().numpy()
 

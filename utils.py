@@ -1,8 +1,11 @@
 import logging
 import os
-import sys
 import torch
 import pickle
+import python_speech_features
+from python_speech_features import mfcc
+import scipy.io.wavfile as wav
+import numpy as np
 
 from torch.utils.data import TensorDataset
 from tqdm import tqdm
@@ -22,12 +25,13 @@ class InputExample(object):
 class InputFeatures(object):
     """A single set of features of data."""
 
-    def __init__(self, input_ids, input_mask, segment_ids, label_id, ori_tokens):
+    def __init__(self, input_ids, input_mask, segment_ids, label_id, ori_tokens, sentence_id):
         self.input_ids = input_ids
         self.input_mask = input_mask
         self.segment_ids = segment_ids
         self.label_id = label_id
         self.ori_tokens = ori_tokens
+        self.sentence_id = sentence_id
 
 
 class NerProcessor(object):
@@ -38,7 +42,7 @@ class NerProcessor(object):
             words = []
             labels = []
 
-            for line in f.readlines():
+            for line in f.readlines()[:]:
                 contends = line.strip()
                 tokens = line.strip().split(" ")
 
@@ -104,7 +108,7 @@ def convert_examples_to_features(args, examples, label_list, max_seq_length, tok
 
     features = []
 
-    for (ex_index, example) in tqdm(enumerate(examples), desc="convert examples"):
+    for (ex_index, example) in tqdm(enumerate(examples[:-1]), desc="convert examples"):
         # if ex_index % 10000 == 0:
         #     logger.info("Writing example %d of %d" % (ex_index, len(examples)))
 
@@ -193,7 +197,8 @@ def convert_examples_to_features(args, examples, label_list, max_seq_length, tok
                           input_mask=input_mask,
                           segment_ids=segment_ids,
                           label_id=label_ids,
-                          ori_tokens=ori_tokens))
+                          ori_tokens=ori_tokens,
+                          sentence_id=ex_index))
 
     return features
 
@@ -219,7 +224,25 @@ def get_Dataset(args, processor, tokenizer, mode="train"):
     all_input_mask = torch.tensor([f.input_mask for f in features], dtype=torch.long)
     all_segment_ids = torch.tensor([f.segment_ids for f in features], dtype=torch.long)
     all_label_ids = torch.tensor([f.label_id for f in features], dtype=torch.long)
+    all_sentence_ids = torch.tensor([f.sentence_id for f in features], dtype=torch.long)
 
-    data = TensorDataset(all_input_ids, all_input_mask, all_segment_ids, all_label_ids)
+    data = TensorDataset(all_input_ids, all_input_mask, all_segment_ids, all_label_ids, all_sentence_ids)
 
     return examples, features, data
+
+
+def mfcc39(filename,winlen=0.05,winstep=0.03,nfilt=13,nfft=1024,max_frame_length=500):
+    fs, wavedata = wav.read(filename)
+    mfcc_feature = mfcc(wavedata, fs, winlen=winlen, winstep=winstep, nfilt=nfilt,
+                        nfft=nfft)  # mfcc系数     # nfilt为返回的mfcc数据维数，默认为13维
+    d_mfcc_feat = python_speech_features.base.delta(mfcc_feature,
+                                                    1)  # feat 为mfcc数据或fbank数据    # N - N为1代表一阶差分，N为2代表二阶差分     # 返回：一个大小为特征数量的numpy数组，包含有delta特征，每一行都有一个delta向量
+    d_mfcc_feat2 = python_speech_features.base.delta(mfcc_feature, 2)
+    mfccs = np.hstack((mfcc_feature, d_mfcc_feat, d_mfcc_feat2))
+    # 返回 帧数*39 的mfccs参数
+    pad_delta = max_frame_length - len(mfccs)
+    if pad_delta < 0:
+        mfccs = mfccs[:max_frame_length]
+    else:
+        mfccs = np.row_stack((mfccs, np.zeros((pad_delta, 39))))
+    return mfccs
